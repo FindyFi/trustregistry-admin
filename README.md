@@ -9,13 +9,13 @@ The `index.js` file exports the `OpenIDFederationAPIAdmin` class (aliased as `Ad
 ## Installation
 
 ```bash
-npm install trustregistry-admin
+npm install @findyfi/trustregistry-admin
 ```
 
 ## Quick Start
 
 ```js
-import { Admin } from 'trustregistry-admin'
+import { Admin } from '@findyfi/trustregistry-admin'
 
 // Initialize the client
 const adminUrl = 'https://admin.example.trustregistry.eu'
@@ -318,7 +318,7 @@ CLIENT_SECRET=your_client_secret
 ## Complete Example
 
 ```js
-import { Admin } from 'trustregistry-admin'
+import { Admin } from '@findyfi/trustregistry-admin'
 
 const adminUrl = process.env.API_URL || 'https://admin.findy.trustregistry.eu'
 const authUrl = process.env.AUTH_URL || 'https://id.keycloak.findy.fi/realms/trustregistry-dev/protocol/openid-connect/token'
