@@ -18,7 +18,7 @@ class OpenIDFederationAPIAdmin {
    * Handle API errors uniformly
    * @param {Error} error Error object
    */
-  async handleError(error) {
+  handleError(error) {
     if (error.response) {
       console.error(`API Error: ${error.response.status} - ${error.response.data}`)
     } else if (error.request) {
@@ -26,7 +26,7 @@ class OpenIDFederationAPIAdmin {
     } else {
       console.error('Request error:', error.message)
     }
-    throw error
+    return error
   }
 
   setUsername(username) {
@@ -65,13 +65,13 @@ class OpenIDFederationAPIAdmin {
       this.apiKey = result.access_token
       const TTL = result.expires_in * 1000
       this.refreshTimeout = setTimeout(() => {
-        this.authenticate(authUrl, clientId, clientSecret, scope)
-      }, TTL)
-    } catch (error) {
-      await this.handleError(error)
-    }
+        this.authenticate(authUrl, clientId, clientSecret, scope).catch(() => {})
+       }, TTL)
+     } catch (error) {
+      throw this.handleError(error)
+     }
     return this.apiKey
-  }
+   }
 
   quit() {
     this.apiKey = null
