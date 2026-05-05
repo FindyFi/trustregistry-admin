@@ -66,12 +66,12 @@ class OpenIDFederationAPIAdmin {
       const TTL = result.expires_in * 1000
       this.refreshTimeout = setTimeout(() => {
         this.authenticate(authUrl, clientId, clientSecret, scope).catch(() => {})
-       }, TTL)
-     } catch (error) {
+      }, TTL)
+    } catch (error) {
       throw this.handleError(error)
-     }
+    }
     return this.apiKey
-   }
+  }
 
   quit() {
     this.apiKey = null
@@ -125,7 +125,7 @@ class OpenIDFederationAPIAdmin {
         return await response.text()
       }
     } catch (error) {
-      await this.handleError(error)
+      throw this.handleError(error)
     }
   }
 
@@ -139,7 +139,7 @@ class OpenIDFederationAPIAdmin {
     try {
       return await this.request(endpoint, 'GET', null, username)
     } catch (error) {
-      await this.handleError(error)
+      throw this.handleError(error)
     }
   }
 
@@ -153,7 +153,7 @@ class OpenIDFederationAPIAdmin {
     try {
       return await this.request(endpoint, 'POST', data, username)
     } catch (error) {
-      await this.handleError(error)
+      throw this.handleError(error)
     }
   }
 
@@ -166,7 +166,7 @@ class OpenIDFederationAPIAdmin {
     try {
       return await this.request(endpoint, 'DELETE', null, username)
     } catch (error) {
-      await this.handleError(error)
+      throw this.handleError(error)
     }
   }
 
@@ -333,7 +333,7 @@ class OpenIDFederationAPIAdmin {
   async deleteTrustMarkType(identifier, username=null) {
     return this.delete(`/trust-mark-types/${encodeURIComponent(identifier)}`, username)
   }
-  
+
   async getTrustMarkTypeIssuers(identifier, username=null) {
     const response = await this.get(`/trust-mark-types/${encodeURIComponent(identifier)}/issuers`, username)
     return response.issuers
@@ -346,9 +346,9 @@ class OpenIDFederationAPIAdmin {
   async removeTrustMarkIssuer(identifier, issuerId, username=null) {
     return this.delete(`/trust-mark-types/${encodeURIComponent(identifier)}/issuers/${encodeURIComponent(issuerId)}`, username)
   }
-  
+
   async issueTrustMark(trustMark, dryRun=false, username=null) {
-    if (dryRun) { 
+    if (dryRun) {
       trustMark.dryRun = true
     }
     return this.post(`/trust-marks`, trustMark, username)
